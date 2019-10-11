@@ -28,6 +28,8 @@ import org.relique.io.ListDataReader;
  */
 public class CsvDatabaseMetaData implements DatabaseMetaData
 {
+	private static final String SCHEMA_NAME = "PUBLIC";
+
 	private Connection createdByConnection;
 	private CsvStatement internalStatement = null;
 
@@ -170,7 +172,7 @@ public class CsvDatabaseMetaData implements DatabaseMetaData
 					{
 						int columnType = metadata.getColumnType(i + 1);
 						String columnTypeName = metadata.getColumnTypeName(i + 1);
-						Object data[] = { null, null, tableName, columnName,
+						Object data[] = { null, SCHEMA_NAME, tableName, columnName,
 							Integer.valueOf(columnType), columnTypeName,
 							columnSize, zero, decimalDigits, radix, nullable,
 							remarks, defaultValue, zero, zero, columnSize,
@@ -495,7 +497,10 @@ public class CsvDatabaseMetaData implements DatabaseMetaData
 	{
 		String columnNames = "TABLE_SCHEM,TABLE_CATALOG";
 		String columnTypes = "String,String";
+		Object[] data = new Object[]
+		{ SCHEMA_NAME, null };
 		ArrayList<Object[]> columnValues = new ArrayList<Object[]>();
+		columnValues.add(data);
 		ResultSet retval = createResultSet(columnNames, columnTypes,
 				columnValues);
 		return retval;
@@ -594,7 +599,7 @@ public class CsvDatabaseMetaData implements DatabaseMetaData
 			String tableName = tableNames.get(i);
 			if (typesMatch && (tableNamePattern == null || LikePattern.matches(tableNamePattern, LikePattern.DEFAULT_ESCAPE_STRING, tableName)))
 			{
-				Object[] data = new Object[]{null, null, tableName, "TABLE", "",
+				Object[] data = new Object[]{null, SCHEMA_NAME, tableName, "TABLE", "",
 					null, null, null, null, null};
 				columnValues.add(data);
 			}
