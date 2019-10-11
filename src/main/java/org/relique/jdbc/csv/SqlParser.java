@@ -97,6 +97,7 @@ public class SqlParser
 	 */
 	public void parse(String sql) throws SQLException, ParseException
 	{
+		sql=sql.replaceAll("(?i)\"public\"\\.", "").replaceAll("(?i)\"public\"\\.", "");;
 		tableNames = new ArrayList<String>();
 		tableAliases = new ArrayList<String>();
 
