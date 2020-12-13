@@ -458,7 +458,7 @@ public class CsvResultSet implements ResultSet
 						List<String> exprUsedColumns = expr.usedColumns(allReaderColumns);
 						for (Object usedColumn : exprUsedColumns)
 						{
-							if (!allReaderColumns.contains(usedColumn))
+							if (!allReaderColumns.contains(usedColumn) && !usedColumn.equals("TRUE")) //for metabase check
 								throw new SQLException(CsvResources.getString("invalidColumnName") + ": " + usedColumn);
 						}
 					}
