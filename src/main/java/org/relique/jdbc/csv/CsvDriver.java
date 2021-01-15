@@ -108,6 +108,9 @@ public class CsvDriver implements Driver
 
 	public static final String FUNCTION = "function";
 
+	public static final String CUSTOM_BASE_URL = "customBaseUrl";
+	public static final String CUSTOM_TABLE_LIST = "customTableList";
+	
 	@Override
 	public DriverPropertyInfo[] getPropertyInfo(String url, Properties info)
 		throws SQLException

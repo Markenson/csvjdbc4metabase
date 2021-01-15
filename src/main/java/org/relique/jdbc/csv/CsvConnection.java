@@ -147,6 +147,10 @@ public class CsvConnection implements Connection
 
 	private int savepointCounter = 0;
 
+	private String customBaseUrl;
+
+	private ArrayList<String> customTableList = new ArrayList<String>();
+
 	/**
 	 * Set defaults for connection.
 	 */
@@ -492,6 +496,21 @@ public class CsvConnection implements Connection
 			if (locale == null)
 				throw new SQLException(CsvResources.getString("noLocale") + ": " + prop);
 		}
+		// set the base url for CUSTOM
+		if (info.getProperty(CsvDriver.CUSTOM_BASE_URL) != null)
+		{
+			customBaseUrl = info.getProperty(CsvDriver.CUSTOM_BASE_URL);
+		}
+		// set the tables under base url for http
+		if (info.getProperty(CsvDriver.CUSTOM_TABLE_LIST) != null)
+		{
+			String[] tables = info.getProperty(CsvDriver.CUSTOM_TABLE_LIST).split(",");
+			for (String t : tables) {
+				customTableList.add(t);
+			}
+		}
+
+
 		setCommentChar(info.getProperty(CsvDriver.COMMENT_CHAR,
 			CsvDriver.DEFAULT_COMMENT_CHAR));
 		setDefectiveHeaders(info.getProperty(CsvDriver.DEFECTIVE_HEADERS,
@@ -945,7 +964,7 @@ public class CsvConnection implements Connection
 	 * 
 	 * @return current value for the extension property
 	 */
-	protected String getExtension()
+	public String getExtension()
 	{
 		return extension;
 	}
@@ -1392,6 +1411,10 @@ public class CsvConnection implements Connection
 	 */
 	public List<String> getTableNames() throws SQLException
 	{
+		if(customBaseUrl != null) {
+			return customTableList;
+		}
+		
 		List<String> tableNames = new ArrayList<String>();
 		if (path != null)
 		{
@@ -1460,5 +1483,13 @@ public class CsvConnection implements Connection
 		 */
 		Collections.sort(tableNames);
 		return tableNames;
+	}
+
+	public String getCustomBaseUrl() {
+		return customBaseUrl;
+	}
+
+	public List<String> getCustomTableList() {
+		return customTableList;
 	}
 }
