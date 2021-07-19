@@ -182,7 +182,7 @@ public class CsvDriver implements Driver
 			String className = filePath.substring(READER_CLASS_PREFIX.length());
 			try
 			{
-				Class<?> clazz = Class.forName(className);
+				Class<?> clazz = Class.forName(className.replaceAll(":", ""));
 
 				/*
 				 * Check that class implements our interface.
