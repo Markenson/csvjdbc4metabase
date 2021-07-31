@@ -589,6 +589,8 @@ public class CsvStatement implements Statement
 	@Override
 	public boolean execute(String sql) throws SQLException
 	{
+		sql=sql.replaceAll("(?i)\"public\"\\.", "").replaceAll("(?i)\"public\"\\.", "");
+
 		CsvDriver.writeLog("CsvStatement:execute() - sql= " + sql);
 
 		/*
