@@ -660,4 +660,12 @@ public class CsvRawReader
 			matchesSeparator = line.regionMatches(currentPos, separator, 0, separator.length());
 		return matchesSeparator;
 	}
+
+	public void mark(int i) throws IOException {
+		input.mark(i);
+	}
+
+	public void reset() throws IOException {
+		input.reset();
+	}
 }

@@ -297,8 +297,16 @@ public class CsvReader extends DataReader
 
 	private void inferColumnTypes() throws SQLException
 	{
-		if (fieldValues == null)
-			throw new SQLException(CsvResources.getString("cannotInferColumns"));
+		if (fieldValues == null) {
+			try {
+				rawReader.mark(0);
+				this.next();
+				rawReader.reset();
+
+			} catch (IOException e) {
+				throw new SQLException(CsvResources.getString("cannotInferColumns"));
+			}
+		}
 
 		columnTypes = new String[fieldValues.length];
 		for (int i = 0; i < fieldValues.length; i++)
