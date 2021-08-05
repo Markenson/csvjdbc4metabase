@@ -35,6 +35,7 @@ import java.sql.SQLException;
 import java.sql.SQLXML;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.OffsetDateTime;
 import java.util.Calendar;
 
 public class CsvPreparedStatement extends CsvStatement implements PreparedStatement
@@ -485,8 +486,19 @@ public class CsvPreparedStatement extends CsvStatement implements PreparedStatem
 	{
 		checkOpen();
 		checkParameterIndex(parameterIndex);
-
-		throw new SQLException(CsvResources.getString("methodNotSupported") + ": setObject(int,Object,int)");
+		
+        if (x instanceof OffsetDateTime) {
+        	this.parameters[parameterIndex] =  Date.valueOf(((OffsetDateTime)x).toLocalDate());
+        }
+//        } else if (x instanceof LocalDateTime) {
+//        	this.parameters[parameterIndex] = Timestamp.valueOf((LocalDateTime) x);
+//        } else if (x instanceof LocalTime) {
+//        	this.parameters[parameterIndex] = Time.valueOf((LocalTime) x);
+//	    } else if (x instanceof OffsetDateTime) {
+//	    	this.parameters[parameterIndex] =  ((OffsetDateTime)x).toInstant();
+//	    }
+//
+//		throw new SQLException(CsvResources.getString("methodNotSupported") + ": setObject(int,Object,int)");
 	}
 
 	@Override
